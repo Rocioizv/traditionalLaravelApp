@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <table class="table table-striped table-hover" id="tablaMueble">
+    <table class="table table-striped table-hover" id="tablaFurniture">
         <thead>
             <tr>
                 <th>id</th>

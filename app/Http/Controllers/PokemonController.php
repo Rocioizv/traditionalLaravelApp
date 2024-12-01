@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use App\Models\Pokemon;
 use Illuminate\Http\Request;
 
@@ -8,12 +10,15 @@ class PokemonController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(){
-        return view('pokemon.index', 
+    public function index()
+    {
+        return view(
+            'pokemon.index',
             [
                 'lipokemon' => 'active',
                 'pokemon' => Pokemon::orderBy('nombre')->get(),
-            ]);
+            ]
+        );
     }
 
     /**
@@ -21,7 +26,7 @@ class PokemonController extends Controller
      */
     public function create()
     {
-       return view('pokemon.create', ['lipokemon' => 'active']);
+        return view('pokemon.create', ['lipokemon' => 'active']);
     }
 
     /**
@@ -40,7 +45,7 @@ class PokemonController extends Controller
         try {
             $pokemon = Pokemon::create($request->all());
             return redirect('pokemon')->with(['message' => 'El Pokémon ha sido creado.']);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return back()->withInput()->withErrors(['message' => 'El Pokémon no ha sido creado.']);
         }
     }
@@ -51,7 +56,7 @@ class PokemonController extends Controller
     public function show(Request $request, $id)
     {
         $pokemon = Pokemon::find($id);
-        if($pokemon === null){
+        if ($pokemon === null) {
             abort(404);
         }
         return view('pokemon.show', ['lipokemon' => 'active', 'pokemon' => $pokemon]);
@@ -68,7 +73,8 @@ class PokemonController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Pokemon $pokemon){
+    public function update(Request $request, Pokemon $pokemon)
+    {
         $validated = $request->validate([
             'nombre'  => 'required|max:50|min:4|unique:pokemon,nombre,' . $pokemon->id,
             'peso'    => 'required|numeric|gte:0|lte:999.999',
@@ -79,23 +85,21 @@ class PokemonController extends Controller
         try {
             $result = $pokemon->update($request->all());
             return redirect('pokemon')->with(['message' => 'El Pokémon ha sido actualizado.']);
-        } catch(\Exception $e) {
-            return back()->withInput()->withErrors(['message' => 'El Pokémon no ha sido actualizado.']);  
+        } catch (\Exception $e) {
+            return back()->withInput()->withErrors(['message' => 'El Pokémon no ha sido actualizado.']);
         }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-        public function destroy(Request $request, Pokemon $pokemon){
+    public function destroy(Pokemon $pokemon)
+    {
         try {
-        $pokemon->delete();
-        return redirect('pokemon')->with(['message' => 'El Pokémon ha sido eliminado']);
+            $pokemon->delete();
+            return redirect('pokemon')->with(['message' => 'El Pokémon ha sido eliminado']);
         } catch (\Exception $e) {
-        return back()->withErrors(['message' => 'El Pokémon no ha sido eliminado']);
+            return back()->withErrors(['message' => 'El Pokémon no ha sido eliminado']);
         }
     }
-
-
-    
 }

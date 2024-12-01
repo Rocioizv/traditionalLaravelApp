@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (!Schema::hasTable("product")) {
         Schema::create('product', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100)->unique();
             $table->decimal('price', 9, 2);
             //$table->timestamps();
         });
+    }
     }
 
     /**

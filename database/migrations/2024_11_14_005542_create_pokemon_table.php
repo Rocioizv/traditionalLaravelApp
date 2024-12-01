@@ -13,6 +13,7 @@ class CreatepokemonTable extends Migration
      */
     public function up()
     {
+        if (!Schema::hasTable('pokemon')) {
         Schema::create('pokemon', function (Blueprint $table) {
             $table->id();
             $table->string('nombre', 50)->unique();
@@ -22,6 +23,7 @@ class CreatepokemonTable extends Migration
             $table->integer('numero')->unique();
             $table->timestamps();
         });
+    }
     }
 
     /**

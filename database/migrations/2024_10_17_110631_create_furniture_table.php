@@ -11,10 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('furniture', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('furniture')) {
+            Schema::create('furniture', function (Blueprint $table) {
+                $table->id();
+                $table->string('model', 50)->unique();
+                $table->decimal('price', 8, 3);
+                $table->timestamps();
+            });
+        }
     }
 
     /**
